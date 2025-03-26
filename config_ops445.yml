@@ -1,0 +1,72 @@
+---
+- hosts: sdaweng
+  user: student
+  become: yes
+  
+  vars:
+    motd_warning: "WARNING: used by ICT faculty/students only.\n"
+    seneca_ID: sdaweng
+
+  tasks:
+    - name: EPEL repository is installed with extra packages
+      ansible.builtin.yum:
+        name: epel-release
+        state: present
+
+    - name: Update Apache version
+      ansible.builtin.yum:
+        name: httpd
+        state: latest
+
+
+    - name: Remove tree package
+      ansible.builtin.yum:
+        name: tree
+        state: absent
+
+    - name: Set hostname to Seneca username sdaweng
+      ansible.builtin.hostname:
+        name: "{{ seneca_ID }}"
+
+
+    - name: make a new user sdaweng
+      ansible.builtin.user:
+        user: "{{ seneca_ID }}"
+        state: present
+        shell: /bin/bash
+
+    - name: Adding user to sudoers group
+      ansible.builtin.user:
+        name: "{{ seneca_ID }}"
+        groups: wheel
+        append: yes
+
+
+    - name: make .ssh directory for the user
+      ansible.builtin.file:
+        path: "/home/{{ seneca_ID }}/.ssh"
+        state: directory
+        owner: "{{ seneca_ID }}"
+        group: "{{ seneca_ID }}"
+        mode: '0700'
+
+    - name: Add SSH public key for the user
+      ansible.builtin.authorized_key:
+        user: "{{ seneca_ID}}"
+        state: present
+        key: "{{ lookup('file', '/home/{{ seneca_ID }}/.ssh/id_rsa.pub') }}"
+        
+
+    - name: Directories labs
+      ansible.builtin.file:
+        path: "/home/{{ seneca_ID }}/ops445/lab{{ item }}"
+        state: directory
+        owner: "{{ seneca_ID }}"
+        group: "{{ seneca_ID }}"
+        mode: '0755'
+      loop: "{{ range(1, 9) | list }}"
+
+    - name: Restart Apache after update
+      ansible.builtin.service:
+        name: httpd
+        state: restarted

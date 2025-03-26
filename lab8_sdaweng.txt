@@ -1,0 +1,46 @@
+
+PLAY [sdaweng] *****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [myvmlab.senecapolytechnic.ca]
+
+TASK [EPEL repository is installed with extra packages] ************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [Update Apache version] ***************************************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [Remove tree package] *****************************************************
+ok: [myvmlab.senecapolytechnic.ca]
+
+TASK [Set hostname to Seneca username sdaweng] *********************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [make a new user sdaweng] *************************************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [Adding user to sudoers group] ********************************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [make .ssh directory for the user] ****************************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [Add SSH public key for the user] *****************************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+TASK [Directories labs] ********************************************************
+changed: [myvmlab.senecapolytechnic.ca] => (item=1)
+changed: [myvmlab.senecapolytechnic.ca] => (item=2)
+changed: [myvmlab.senecapolytechnic.ca] => (item=3)
+changed: [myvmlab.senecapolytechnic.ca] => (item=4)
+changed: [myvmlab.senecapolytechnic.ca] => (item=5)
+changed: [myvmlab.senecapolytechnic.ca] => (item=6)
+changed: [myvmlab.senecapolytechnic.ca] => (item=7)
+changed: [myvmlab.senecapolytechnic.ca] => (item=8)
+
+TASK [Restart Apache after update] *********************************************
+changed: [myvmlab.senecapolytechnic.ca]
+
+PLAY RECAP *********************************************************************
+myvmlab.senecapolytechnic.ca : ok=11   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
